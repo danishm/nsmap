@@ -1,0 +1,17 @@
+{
+    "name": "nsmap",
+    "version": "0.1.0",
+    "description": "An implementation of a map using namespaces in keys",
+    "main": "index.js",
+    "scripts": {
+        "lint": "eslint -c .eslintrc.yml *.js **/*.js",
+        "test": "jest --watchAll --coverage --collectCoverageFrom=**/*.js --collectCoverageFrom=!**/coverage/**"
+    },
+    "author": "danish.mujeeb@gmail.com",
+    "license": "MIT",
+    "devDependencies": {
+        "eslint": "^4.4.1",
+        "jest": "^20.0.4",
+        "nock": "^9.0.14"
+    }
+}
