@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "lint": "eslint -c .eslintrc.yml *.js **/*.js",
-        "test": "jest --watchAll --coverage --collectCoverageFrom=**/*.js --collectCoverageFrom=!**/coverage/**"
+        "test": "jest --coverage"
     },
     "author": "danish.mujeeb@gmail.com",
     "license": "MIT",
