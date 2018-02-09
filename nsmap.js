@@ -38,10 +38,9 @@ function NSMap() {
                 return obj["__NS"][ns].get(rest);
             }
         }
-        return null;
     }
 
     return obj
 }
 
-module.exports.NSMap = NSMap;
+module.exports = NSMap;
