@@ -16,7 +16,7 @@ describe('NSMap', () => {
     test("Missing keys don't fail", () => {
         const m = NSMap();
 
-        expect(m.get('name')).toBe(null);
-        expect(m.get('ns1:name')).toBe(null);
+        expect(m.get('name')).toBe(undefined);
+        expect(m.get('ns1:name')).toBe(undefined);
     })
 });
