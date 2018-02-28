@@ -18,5 +18,19 @@ describe('NSMap', () => {
 
         expect(m.get('name')).toBe(undefined);
         expect(m.get('ns1:name')).toBe(undefined);
+    });
+
+    test("Accessing missing namespaced value returns base value", () => {
+        const m = NSMap();
+
+        m.add('name', 'name1');
+
+        expect(m.get('name')).toBe('name1');
+        expect(m.get('ns1:ns2:name')).toBe('name1');
+
+        m.add('ns1:ns2:name', 'name2');
+
+        expect(m.get('name')).toBe('name1');
+        expect(m.get('ns1:ns2:name')).toBe('name2');
     })
 });
