@@ -7,8 +7,8 @@ function NSMap(parentNSMap) {
   obj.__NS = {};
   obj.__PARENT = parent;
 
-  // Add a new namespaced variable
-  obj.add = (key, val) => {
+  // Set a new namespaced variable
+  obj.set = (key, val) => {
     const parts = key.split(':');
     const ns = parts[0];
     const rest = parts.slice(1).join(':');
@@ -21,7 +21,7 @@ function NSMap(parentNSMap) {
       if (!(ns in obj.__NS)) {
         obj.__NS[ns] = NSMap(obj);
       }
-      obj.__NS[ns].add(rest, val);
+      obj.__NS[ns].set(rest, val);
     }
   };
 
