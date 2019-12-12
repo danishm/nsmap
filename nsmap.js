@@ -1,53 +1,52 @@
-function NSMap(parent) {
-    parent = parent || null;
+function NSMap(parentNSMap) {
+  const parent = parentNSMap || null;
 
-    // Initializing object. Native keys live on obj while namespaces live
-    // insite the "__NS" key
-    var obj = {};
-    obj["__NS"] = {};
-    obj["__PARENT"] = parent;
+  // Initializing object. Native keys live on obj while namespaces live
+  // inside the "__NS" key
+  const obj = {};
+  obj.__NS = {};
+  obj.__PARENT = parent;
 
-    // Add a new namespaced variable
-    obj.add = function(key, val) {
-        var parts = key.split(":");
-        var ns = parts[0];
-        var rest = parts.slice(1).join(":");
+  // Add a new namespaced variable
+  obj.add = (key, val) => {
+    const parts = key.split(':');
+    const ns = parts[0];
+    const rest = parts.slice(1).join(':');
 
-        // Base case
-        if (parts.length == 1) {
-            obj[parts[0]] = val;
-        }
-        // Recursive step
-        else {
-            if (!(ns in obj["__NS"])) {
-                obj["__NS"][ns] = NSMap(obj);
-            }
-            obj["__NS"][ns].add(rest, val);
-        }
-    };
+    // Base case
+    if (parts.length === 1) {
+      obj[parts[0]] = val;
+    } else {
+      // Recursive step
+      if (!(ns in obj.__NS)) {
+        obj.__NS[ns] = NSMap(obj);
+      }
+      obj.__NS[ns].add(rest, val);
+    }
+  };
 
-    // Get a namespaces variable
-    obj.get = function(key) {
-        var parts = key.split(":");
-        var ns = parts[0];
-        var rest = parts.slice(1).join(":");
+  // Get a namespaces variable
+  obj.get = (key) => {
+    const parts = key.split(':');
+    const ns = parts[0];
+    const rest = parts.slice(1).join(':');
 
-        // Base care
-        if (parts.length == 1) {
-            if (key in obj) {
-                return obj[key];
-            } else if (obj["__PARENT"]) {
-                return obj["__PARENT"].get(key);
-            }
-        } else {
-            if (!(ns in obj["__NS"])) {
-                obj["__NS"][ns] = NSMap(obj);
-            }
-            return obj["__NS"][ns].get(rest);
-        }
-    };
+    // Base care
+    if (parts.length === 1) {
+      if (key in obj) {
+        return obj[key];
+      } if (obj.__PARENT) {
+        return obj.__PARENT.get(key);
+      }
+      return null;
+    }
+    if (!(ns in obj.__NS)) {
+      obj.__NS[ns] = NSMap(obj);
+    }
+    return obj.__NS[ns].get(rest);
+  };
 
-    return obj;
+  return obj;
 }
 
 module.exports = NSMap;
