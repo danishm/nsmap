@@ -2,7 +2,7 @@ const NSMap = require('../nsmap.js');
 
 describe('NSMap', () => {
   test('Basic functionality', () => {
-    const m = NSMap();
+    const m = new NSMap();
 
     m.set('name', 'name1');
     m.set('ns1:name', 'name2');
@@ -12,14 +12,14 @@ describe('NSMap', () => {
   });
 
   test("Missing keys don't fail", () => {
-    const m = NSMap();
+    const m = new NSMap();
 
     expect(m.get('name')).toBe(null);
     expect(m.get('ns1:name')).toBe(null);
   });
 
   test('Accessing missing namespaced value returns base value', () => {
-    const m = NSMap();
+    const m = new NSMap();
 
     m.set('name', 'name1');
 
