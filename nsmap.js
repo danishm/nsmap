@@ -1,52 +1,45 @@
-function NSMap(parentNSMap) {
-  const parent = parentNSMap || null;
-
-  // Initializing object. Native keys live on obj while namespaces live
-  // inside the "__NS" key
-  const obj = {};
-  obj.__NS = {};
-  obj.__PARENT = parent;
-
-  // Set a new namespaced variable
-  obj.set = (key, val) => {
-    const parts = key.split(':');
-    const ns = parts[0];
-    const rest = parts.slice(1).join(':');
-
-    // Base case
-    if (parts.length === 1) {
-      obj[parts[0]] = val;
-    } else {
-      // Recursive step
-      if (!(ns in obj.__NS)) {
-        obj.__NS[ns] = NSMap(obj);
-      }
-      obj.__NS[ns].set(rest, val);
-    }
-  };
-
-  // Get a namespaces variable
-  obj.get = (key) => {
-    const parts = key.split(':');
-    const ns = parts[0];
-    const rest = parts.slice(1).join(':');
-
-    // Base care
-    if (parts.length === 1) {
-      if (key in obj) {
-        return obj[key];
-      } if (obj.__PARENT) {
-        return obj.__PARENT.get(key);
-      }
-      return null;
-    }
-    if (!(ns in obj.__NS)) {
-      obj.__NS[ns] = NSMap(obj);
-    }
-    return obj.__NS[ns].get(rest);
-  };
-
-  return obj;
+function NSMap(parent) {
+  this.parent = parent || null;
+  this.data = new Map();
+  this.namespaces = new Map();
 }
+
+NSMap.prototype.set = function set(key, val) {
+  const parts = key.split(':');
+  const ns = parts[0];
+  const rest = parts.slice(1).join(':');
+
+  // Base case
+  if (parts.length === 1) {
+    this.data.set(parts[0], val);
+  } else {
+    // Recursive step
+    if (!(ns in this.namespaces)) {
+      this.namespaces[ns] = new NSMap(this);
+    }
+    this.namespaces[ns].set(rest, val);
+  }
+};
+
+NSMap.prototype.get = function get(key) {
+  const parts = key.split(':');
+  const ns = parts[0];
+  const rest = parts.slice(1).join(':');
+
+  // Base case i.e. no namespace specified
+  if (parts.length === 1) {
+    if (this.data.has(key)) {
+      return this.data.get(key);
+    }
+    if (this.parent) {
+      return this.parent.get(key);
+    }
+    return null;
+  }
+  if (!(ns in this.namespaces)) {
+    this.namespaces[ns] = new NSMap(this);
+  }
+  return this.namespaces[ns].get(rest);
+};
 
 module.exports = NSMap;

@@ -21,7 +21,7 @@ const logOrder = (order) => {
 If they all ordered the same thing, you can simply do this
 
 ```js
-const order = NSMap();
+const order = new NSMap();
 order.set('item', 'burger');
 logOrder(order);
 ```
@@ -37,7 +37,7 @@ Raj wants burger
 Now let's **Sara** changes her mind and wants pasta, you can then simply do
 
 ```js
-const order = NSMap();
+const order = new NSMap();
 order.set('item', 'burger');
 order.set('sara:item', 'pasta'); // setting the value of `item` with a namespcace/scope of `sara`
 logOrder(order);
